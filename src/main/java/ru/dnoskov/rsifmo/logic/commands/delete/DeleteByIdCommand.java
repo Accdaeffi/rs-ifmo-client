@@ -1,11 +1,9 @@
 package ru.dnoskov.rsifmo.logic.commands.delete;
 
-import java.rmi.RemoteException;
-
 import ru.dnoskov.rsifmo.logic.commands.AbsCommand;
 import ru.dnoskov.rsifmo.logic.exceptions.IncorrectNumberOfArgumentsException;
 import ru.dnoskov.rsifmo.model.exceptions.*;
-import ru.dnoskov.rsifmo.service.delete.PersonDeleteServiceProxy;
+import ru.dnoskov.rsifmo.service.delete.DeleteService;
 
 public class DeleteByIdCommand extends AbsCommand {
 
@@ -25,7 +23,7 @@ public class DeleteByIdCommand extends AbsCommand {
 	public String executeCommand() {
 		StringBuilder sb = new StringBuilder();
 		
-		PersonDeleteServiceProxy deleteProxy = new PersonDeleteServiceProxy();
+		DeleteService deleteProxy = new DeleteService();
 		try {
 			boolean result = deleteProxy.deletePerson(id);
 			if (result) {

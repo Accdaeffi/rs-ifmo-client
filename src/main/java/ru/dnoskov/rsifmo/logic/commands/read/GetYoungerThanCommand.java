@@ -1,12 +1,12 @@
 package ru.dnoskov.rsifmo.logic.commands.read;
 
-import java.rmi.RemoteException;
+import java.util.List;
 
 import ru.dnoskov.rsifmo.logic.commands.AbsCommand;
 import ru.dnoskov.rsifmo.logic.exceptions.IncorrectNumberOfArgumentsException;
 import ru.dnoskov.rsifmo.model.Person;
 import ru.dnoskov.rsifmo.model.exceptions.*;
-import ru.dnoskov.rsifmo.service.read.PersonReadServiceProxy;
+import ru.dnoskov.rsifmo.service.read.ReadService;
 
 public class GetYoungerThanCommand extends AbsCommand {
 
@@ -26,11 +26,11 @@ public class GetYoungerThanCommand extends AbsCommand {
 	public String executeCommand() {
 		StringBuilder sb = new StringBuilder();
 		
-		PersonReadServiceProxy readProxy = new PersonReadServiceProxy();
+		ReadService readProxy = new ReadService();
 		try {
-			Person[] persons = readProxy.getPersonsYoungerThan(age);
+			List<Person> persons = readProxy.getPersonsYoungerThan(age);
 			
-			if (persons != null) {
+			if (persons != null && !persons.isEmpty()) {
 				for (Person p : persons) {
 					sb.append(p.toString());
 					sb.append("\n");
@@ -45,6 +45,10 @@ public class GetYoungerThanCommand extends AbsCommand {
 		}
 		catch (WorkWithSQLException e) {
 			sb.append("Ошибка при работе с SQL! ");
+			sb.append(e.getMessage());
+		}
+		catch (Exception e) {
+			sb.append("Внутренняя ошибка! ");
 			sb.append(e.getMessage());
 		}
 		

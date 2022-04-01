@@ -1,12 +1,10 @@
 package ru.dnoskov.rsifmo.logic.commands.update;
 
-import java.rmi.RemoteException;
-
 import ru.dnoskov.rsifmo.logic.commands.AbsCommand;
 import ru.dnoskov.rsifmo.logic.exceptions.IncorrectNumberOfArgumentsException;
 import ru.dnoskov.rsifmo.model.Person;
 import ru.dnoskov.rsifmo.model.exceptions.*;
-import ru.dnoskov.rsifmo.service.update.PersonUpdateServiceProxy;
+import ru.dnoskov.rsifmo.service.update.UpdateService;
 
 public class UpdateByAllFieldsCommand extends AbsCommand {
 
@@ -31,7 +29,7 @@ public class UpdateByAllFieldsCommand extends AbsCommand {
 	public String executeCommand() {
 		StringBuilder sb = new StringBuilder();
 		
-		PersonUpdateServiceProxy updateProxy = new PersonUpdateServiceProxy();
+		UpdateService updateProxy = new UpdateService();
 		try {
 			boolean result = updateProxy.updatePerson(personToUpdate);
 			if (result) {
@@ -46,6 +44,10 @@ public class UpdateByAllFieldsCommand extends AbsCommand {
 		}
 		catch (WorkWithSQLException e) {
 			sb.append("Ошибка при работе с SQL! ");
+			sb.append(e.getMessage());
+		}
+		catch (Exception e) {
+			sb.append("Unknown exception! ");
 			sb.append(e.getMessage());
 		}
 		

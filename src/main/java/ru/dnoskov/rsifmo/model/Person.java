@@ -1,14 +1,14 @@
 package ru.dnoskov.rsifmo.model;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
 
-@ToString
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
+@Builder
 public class Person {
 
     private int id;

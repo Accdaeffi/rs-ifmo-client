@@ -17,7 +17,7 @@ public class RequestSender {
 
 	private static final Gson gson = new Gson();
 	
-	private static final String hostAddress = "localhost:8080";
+	private static final String hostAddress = "http://localhost:8080";
 	
 	private final HttpUrl url;
 	private final RequestBody requestBody;
@@ -31,18 +31,20 @@ public class RequestSender {
 		String baseUrl = hostAddress + methodAddress;
 		
 	    HttpUrl.Builder httpBuilder = HttpUrl.get(baseUrl).newBuilder();
-	    if (paramsParts != null) {
+	    if (!paramsParts.isEmpty()) {
 	       for(Map.Entry<String, String> param : paramsParts.entrySet()) {
 	           httpBuilder.addQueryParameter(param.getKey(),param.getValue());
 	       }
 	    }
 		
 		url = httpBuilder.build();
-		
-		System.out.println(url.toString());
 
-		requestBody = RequestBody.create(gson.toJson(bodyParts), 
-				MediaType.get("application/json; charset=utf-8"));
+		if (!bodyParts.isEmpty()) {
+			requestBody = RequestBody.create(gson.toJson(bodyParts), 
+					MediaType.get("application/json; charset=utf-8"));
+		} else {
+			requestBody = RequestBody.create("", null);
+		}
 		
 		client = new OkHttpClient();
 		

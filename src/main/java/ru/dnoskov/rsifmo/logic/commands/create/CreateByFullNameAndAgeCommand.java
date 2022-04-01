@@ -33,10 +33,7 @@ public class CreateByFullNameAndAgeCommand extends AbsCommand {
 		
 		CreateService createProxy = new CreateService();
 		try {
-			Person result = createProxy.createPerson(personToAdd.getName(), 
-					personToAdd.getSurname(), 
-					personToAdd.getPatronymic(), 
-					personToAdd.getAge());
+			Person result = createProxy.createPerson(personToAdd);
 			
 			sb.append(String.format("Успешно добавлено! Id нового объект - %d.", result.getId())); 
 		}
