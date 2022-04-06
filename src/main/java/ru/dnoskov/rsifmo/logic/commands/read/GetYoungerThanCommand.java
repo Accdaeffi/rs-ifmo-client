@@ -13,6 +13,10 @@ public class GetYoungerThanCommand extends AbsCommand {
 	private final int age;
 	
 	public GetYoungerThanCommand(String args) throws IncorrectNumberOfArgumentsException {
+		if (args == null) {
+			throw new IncorrectNumberOfArgumentsException();
+		}
+		
 		String[] arguments = args.split(" ");
 		
 		if (arguments.length != 1) {
@@ -46,6 +50,9 @@ public class GetYoungerThanCommand extends AbsCommand {
 		catch (WorkWithSQLException e) {
 			sb.append("Ошибка при работе с SQL! ");
 			sb.append(e.getMessage());
+		}
+		catch (ThrottlingException e) {
+			sb.append("Слишком много запросов, попробуйте позже!");
 		}
 		catch (Exception e) {
 			sb.append("Внутренняя ошибка! ");

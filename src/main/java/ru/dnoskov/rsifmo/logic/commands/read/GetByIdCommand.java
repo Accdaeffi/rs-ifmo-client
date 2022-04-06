@@ -45,6 +45,9 @@ public class GetByIdCommand extends AbsCommand {
 			sb.append("Ошибка при работе с SQL! ");
 			sb.append(e.getMessage());
 		}
+		catch (ThrottlingException e) {
+			sb.append("Слишком много запросов, попробуйте позже!");
+		}
 		catch (Exception e) {
 			sb.append("Внутренняя ошибка! ");
 			e.printStackTrace();

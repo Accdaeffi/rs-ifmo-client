@@ -9,6 +9,7 @@ import ru.dnoskov.rsifmo.model.Person;
 import ru.dnoskov.rsifmo.model.exceptions.EmptyArgumentException;
 import ru.dnoskov.rsifmo.model.exceptions.IncorrectArgumentException;
 import ru.dnoskov.rsifmo.model.exceptions.PersonWithSuchIdNotFoundException;
+import ru.dnoskov.rsifmo.model.exceptions.ThrottlingException;
 import ru.dnoskov.rsifmo.model.exceptions.WorkWithSQLException;
 
 public class ResponseParser {
@@ -51,6 +52,8 @@ public class ResponseParser {
 				throw new WorkWithSQLException(message);
 			case "PersonWithSuchIdNotFoundException":
 				throw new PersonWithSuchIdNotFoundException(message);
+			case "ThrottlingException": 
+				throw new ThrottlingException(message);
 			default:
 				throw new Exception("Unknown exception with message " + message);
 		}

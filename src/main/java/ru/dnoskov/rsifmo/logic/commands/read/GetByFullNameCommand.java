@@ -15,6 +15,10 @@ public class GetByFullNameCommand extends AbsCommand {
 	private final String patronymic;
 
 	public GetByFullNameCommand(String args) throws IncorrectNumberOfArgumentsException {
+		if (args == null) {
+			throw new IncorrectNumberOfArgumentsException();
+		}
+		
 		String[] arguments = args.split(" ");
 		
 		if (arguments.length != 3) {
@@ -50,6 +54,9 @@ public class GetByFullNameCommand extends AbsCommand {
 		catch (WorkWithSQLException e) {
 			sb.append("Ошибка при работе с SQL! ");
 			sb.append(e.getMessage());
+		}
+		catch (ThrottlingException e) {
+			sb.append("Слишком много запросов, попробуйте позже!");
 		}
 		catch (Exception e) {
 			sb.append("Внутренняя ошибка! ");

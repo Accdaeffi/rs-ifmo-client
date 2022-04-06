@@ -14,6 +14,10 @@ public class GetByNameAndSurnameCommand extends AbsCommand {
 	private final String surname;
 
 	public GetByNameAndSurnameCommand(String args) throws IncorrectNumberOfArgumentsException {
+		if (args == null) {
+			throw new IncorrectNumberOfArgumentsException();
+		}
+		
 		String[] arguments = args.split(" ");
 		
 		if (arguments.length != 2) {
@@ -48,6 +52,9 @@ public class GetByNameAndSurnameCommand extends AbsCommand {
 		catch (WorkWithSQLException e) {
 			sb.append("Ошибка при работе с SQL! ");
 			sb.append(e.getMessage());
+		}
+		catch (ThrottlingException e) {
+			sb.append("Слишком много запросов, попробуйте позже!");
 		}
 		catch (Exception e) {
 			sb.append("Внутренняя ошибка! ");

@@ -5,6 +5,7 @@ import ru.dnoskov.rsifmo.logic.exceptions.IncorrectNumberOfArgumentsException;
 import ru.dnoskov.rsifmo.model.Person;
 import ru.dnoskov.rsifmo.model.exceptions.EmptyArgumentException;
 import ru.dnoskov.rsifmo.model.exceptions.IncorrectArgumentException;
+import ru.dnoskov.rsifmo.model.exceptions.ThrottlingException;
 import ru.dnoskov.rsifmo.model.exceptions.WorkWithSQLException;
 import ru.dnoskov.rsifmo.service.create.CreateService;
 
@@ -44,6 +45,9 @@ public class CreateByFullNameAndAgeCommand extends AbsCommand {
 			sb.append("Ошибка при работе с SQL! ");
 			sb.append(e.getMessage());
 		} 
+		catch (ThrottlingException e) {
+			sb.append("Слишком много запросов, попробуйте позже!");
+		}
 		catch (Exception e) {
 			sb.append("Unknown exception! ");
 			sb.append(e.getMessage());
