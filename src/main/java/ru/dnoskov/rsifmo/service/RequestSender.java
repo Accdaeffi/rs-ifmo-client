@@ -9,9 +9,13 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
-import ru.dnoskov.rsifmo.service.model.RestResponse;
+import okhttp3.Route;
+import okhttp3.Credentials;
+import okhttp3.Authenticator;
 import okhttp3.HttpUrl;
 import okhttp3.MediaType;
+import ru.dnoskov.rsifmo.model.exceptions.AuthException;
+import ru.dnoskov.rsifmo.service.model.RestResponse;
 
 public class RequestSender {
 
@@ -46,7 +50,19 @@ public class RequestSender {
 			requestBody = RequestBody.create("", null);
 		}
 		
-		client = new OkHttpClient();
+		OkHttpClient.Builder clientBuilder = new OkHttpClient.Builder();
+		
+		clientBuilder.authenticator(new Authenticator() {
+	        @Override
+	        public Request authenticate(Route route, Response response) throws IOException {
+	        	if (response.priorResponse() != response) 
+	        		return null;
+	            String credential = Credentials.basic("login", "pass");
+	            return response.request().newBuilder().header("Authorization", credential).build();
+	        }
+	    });
+		
+		client = clientBuilder.build();
 		
 	}
 	
